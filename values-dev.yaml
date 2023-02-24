@@ -1,0 +1,43 @@
+global:
+  envName: dev
+
+  # default:
+  #   app:
+  #     enableAutoSync: true          
+
+  projects:
+    cert-manager:
+      enabled: true 
+    ha-ingress:
+      enabled: true    
+    prometheus:
+      enabled: true       
+    ad-integration:
+      enabled: true   
+
+  applications:
+    cert-manager:
+      enabled: true 
+      # enableAutoSync: true        
+      source: 
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml
+            - values-base.yaml          
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.envName }}.yaml  
+
+    ha-ingress:
+      enabled: true 
+      # enableAutoSync: true        
+      source: 
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml
+            - values-base.yaml   
+
+    prometheus:
+      enabled: true 
+    ad-integration:
+      enabled: true                 

@@ -1,0 +1,97 @@
+global:
+  cluster: build
+
+  projects:
+
+    cert-manager:
+      description: 'cert manager deployment'
+      sourceRepos:
+      - git@github.com:paas2/cert-manager.git
+      destinations:
+        namespaces:
+        - cert-manager
+        - kube-system
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*' 
+
+    ha-ingress:
+      description: 'ha proxy ingress deployment'
+      sourceRepos:
+      - git@github.com:paas2/HAProxy.git
+      destinations:
+        namespaces:
+        - ha-ingress
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'    
+
+    prometheus:
+      description: 'prometheus deployment'
+      sourceRepos:
+      - git@github.com:paas2/prometheus.git
+      destinations:
+        namespaces:
+        - monitoring
+        - kube-system
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*' 
+
+    ad-integration:
+      description: 'ad-integration'
+      sourceRepos:
+      - git@github.com:paas2/ad-integration.git
+      destinations:
+        namespaces:
+        - ad-integration
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'           
+                              
+  applications:
+    cert-manager:
+      destination:
+        namespace: cert-manager
+      project: cert-manager
+      source:
+        path: helm-charts/cert-manager
+        repoURL: git@github.com:paas2/cert-manager.git 
+
+    ha-ingress:
+      destination:
+        namespace: ha-ingress
+      project: ha-ingress
+      source:
+        path: helm-charts/kubernetes-ingress
+        repoURL: git@github.com:paas2/HAProxy.git    
+
+    prometheus:
+      destination:
+        namespace: monitoring
+      project: prometheus
+      source:
+        path: helm-charts/kube-prometheus
+        repoURL: git@github.com:paas2/prometheus.git   
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml   
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.global.envName }}.yaml
+
+    ad-integration:
+      destination:
+        namespace: ad-integration
+      project: ad-integration
+      source:
+        path: helm-charts/ad-integration
+        repoURL: git@github.com:paas2/ad-integration.git     
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml   
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.global.envName }}.yaml   
