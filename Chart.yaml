@@ -7,4 +7,4 @@ appVersion: "1.0.0"
 dependencies:
   - name: argo-apps-base
     version: 1.0.10
-    repository: https://paas2.github.io/paas-helm-charts/
+    repository: https://inders-poc.github.io/helm-charts/
