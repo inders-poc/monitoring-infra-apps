@@ -7,7 +7,7 @@ global:
 
   projects:
     cert-manager:
-      enabled: true 
+      enabled: false 
     ha-ingress:
       enabled: true    
     prometheus:
@@ -17,7 +17,7 @@ global:
 
   applications:
     cert-manager:
-      enabled: true 
+      enabled: false
       # enableAutoSync: true        
       source: 
         extraSourceFields: |
